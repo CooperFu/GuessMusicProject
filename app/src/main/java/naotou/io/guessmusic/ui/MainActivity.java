@@ -50,7 +50,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //初始化控件
+        init();
+        //初始化盘片动画
+        initAnimation();
+        //初始化游戏数据
+        initCurrentStateData();
+    }
 
+    private void init() {
         //初始化控件
         mBtnPlayStart = (ImageButton) findViewById(R.id.btn_play_start);
         mViewPan = (ImageView) findViewById(R.id.imageView1);
@@ -58,9 +66,6 @@ public class MainActivity extends Activity {
         mGridView = (MyGridView) findViewById(R.id.gridView);
         mViewWordsContainer = (LinearLayout) findViewById(R.id.word_select_container);
         ctx = this;
-        initAnimation();
-        //初始化游戏数据
-        initCurrentStateData();
     }
 
     private void initAnimation() {
@@ -169,9 +174,8 @@ public class MainActivity extends Activity {
     private void initCurrentStateData(){
         //初始化已选择框
         mWordSelect = initWordSelect();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(140, 140);
         for (int i = 0; i < mWordSelect.size(); i++) {
-            mViewWordsContainer.addView(mWordSelect.get(i).mViewButton,params);
+            mViewWordsContainer.addView(mWordSelect.get(i).mViewButton,140,140);
 
         }
         // 获得数据

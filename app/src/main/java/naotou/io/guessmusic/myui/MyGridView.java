@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
@@ -25,6 +26,8 @@ public class MyGridView extends GridView {
     private MyGridAdapter myGridAdapter;
     private Context ctx;
     public final static int COUNT_WORD = 24;
+
+    private Animation mScaleAnimation;
 
     public MyGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -64,6 +67,7 @@ public class MyGridView extends GridView {
             if (view == null) {
                 view = MyUtils.getView(ctx, R.layout.item_btn_gridview);
                 holder = mArrayList.get(position);
+                //加载动画
                 holder.mIndex = position;
                 holder.mViewButton = (android.widget.Button) view.findViewById(R.id.item_btn);
                 holder.mViewButton.setText(holder.mWordString);
