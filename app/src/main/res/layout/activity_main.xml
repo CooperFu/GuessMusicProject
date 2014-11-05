@@ -13,7 +13,9 @@
         <!--top bar-->
         <include layout="@layout/top_bar" />
         <!--唱片-->
-        <include layout="@layout/disc_layout"/>
+        <include layout="@layout/disc_layout" />
+        <!--文字选择-->
+        <include layout="@layout/name_select" />
 
     </LinearLayout>
 

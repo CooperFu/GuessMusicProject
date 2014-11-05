@@ -9,7 +9,11 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 import naotou.io.guessmusic.R;
+import naotou.io.guessmusic.model.WordButton;
+import naotou.io.guessmusic.myui.MyGridView;
 
 public class MainActivity extends Activity {
     //盘片相关动画
@@ -28,11 +32,26 @@ public class MainActivity extends Activity {
     private ImageView mViewBar;
     private boolean isRunning = false;
 
+    //文字框的容器
+    private ArrayList<WordButton> mAllWords;
+    private MyGridView mGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //初始化控件
+        mBtnPlayStart = (ImageButton) findViewById(R.id.btn_play_start);
+        mViewPan = (ImageView) findViewById(R.id.imageView1);
+        mViewBar = (ImageView) findViewById(R.id.imageView2);
+        mGridView = (MyGridView) findViewById(R.id.gridView);
+        initAnimation();
+        //初始化游戏数据
+        initCurrentStateData();
+    }
+
+    private void initAnimation() {
         //初始化盘片动画
         mPanAnim = AnimationUtils.loadAnimation(this, R.anim.rotate);
         mPanLin = new LinearInterpolator();
@@ -101,12 +120,9 @@ public class MainActivity extends Activity {
             public void onAnimationRepeat(Animation animation) {
 
             }
+
         });
 
-        mBtnPlayStart = (ImageButton) findViewById(R.id.btn_play_start);
-
-        mViewPan = (ImageView) findViewById(R.id.imageView1);
-        mViewBar = (ImageView) findViewById(R.id.imageView2);
         mBtnPlayStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,5 +153,21 @@ public class MainActivity extends Activity {
         mViewPan.clearAnimation();
         mViewBar.clearAnimation();
         super.onPause();
+    }
+    private void initCurrentStateData(){
+        // 获得数据
+        mAllWords = initAllWord();
+        // 更新数据 MyGridView
+        mGridView.updateData(mAllWords);
+    }
+    private ArrayList<WordButton> initAllWord(){
+        ArrayList<WordButton> list = new ArrayList<WordButton>();
+        //todo 或者所有待选文字
+        for (int i = 0; i < MyGridView.COUNT_WORD; i++) {
+            WordButton button = new WordButton();
+            button.mWordString = "威";
+            list.add(button);
+        }
+        return list;
     }
 }
