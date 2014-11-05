@@ -1,6 +1,8 @@
 package naotou.io.guessmusic.ui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -8,12 +10,14 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import naotou.io.guessmusic.R;
 import naotou.io.guessmusic.model.WordButton;
 import naotou.io.guessmusic.myui.MyGridView;
+import naotou.io.guessmusic.utils.MyUtils;
 
 public class MainActivity extends Activity {
     //盘片相关动画
@@ -34,7 +38,13 @@ public class MainActivity extends Activity {
 
     //文字框的容器
     private ArrayList<WordButton> mAllWords;
+
+    //文字选择框的容器
+    private ArrayList<WordButton> mWordSelect;
+    //已选择文字框ui容器
+    private LinearLayout mViewWordsContainer;
     private MyGridView mGridView;
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,8 @@ public class MainActivity extends Activity {
         mViewPan = (ImageView) findViewById(R.id.imageView1);
         mViewBar = (ImageView) findViewById(R.id.imageView2);
         mGridView = (MyGridView) findViewById(R.id.gridView);
+        mViewWordsContainer = (LinearLayout) findViewById(R.id.word_select_container);
+        ctx = this;
         initAnimation();
         //初始化游戏数据
         initCurrentStateData();
@@ -155,11 +167,23 @@ public class MainActivity extends Activity {
         super.onPause();
     }
     private void initCurrentStateData(){
+        //初始化已选择框
+        mWordSelect = initWordSelect();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(140, 140);
+        for (int i = 0; i < mWordSelect.size(); i++) {
+            mViewWordsContainer.addView(mWordSelect.get(i).mViewButton,params);
+
+        }
         // 获得数据
         mAllWords = initAllWord();
         // 更新数据 MyGridView
         mGridView.updateData(mAllWords);
     }
+
+    /**
+     * @return
+     * 初始化待选文字框
+     */
     private ArrayList<WordButton> initAllWord(){
         ArrayList<WordButton> list = new ArrayList<WordButton>();
         //todo 或者所有待选文字
@@ -169,5 +193,27 @@ public class MainActivity extends Activity {
             list.add(button);
         }
         return list;
+    }
+
+    /**
+     * @return
+     * 初始化已选文字框
+     */
+    private ArrayList<WordButton> initWordSelect(){
+        //初始化已选的文字框 得先知道 框的数量,框的数量取决于当前歌曲的名字长度.
+        ArrayList<WordButton> list = new ArrayList<WordButton>();
+
+        for (int i = 0; i < 4; i++) {
+            View view = MyUtils.getView(ctx, R.layout.item_btn_gridview);
+            //给这个view里相应的wordButton赋值.
+            WordButton button = new WordButton();
+            button.mViewButton = (android.widget.Button) view.findViewById(R.id.item_btn);
+            button.mViewButton.setTextColor(Color.WHITE);
+            button.mViewButton.setText("");
+            button.mIsVisible = false;
+            button.mViewButton.setBackgroundResource(R.drawable.game_wordblank);
+            list.add(button);
+        }
+        return  list;
     }
 }

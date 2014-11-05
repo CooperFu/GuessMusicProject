@@ -59,20 +59,20 @@ public class MyGridView extends GridView {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View view, ViewGroup parent) {
             WordButton holder;
-            if (convertView == null) {
-                convertView = MyUtils.getView(ctx, R.layout.item_btn_gridview);
+            if (view == null) {
+                view = MyUtils.getView(ctx, R.layout.item_btn_gridview);
                 holder = mArrayList.get(position);
                 holder.mIndex = position;
-                holder.mViewButton = (android.widget.Button) convertView.findViewById(R.id.item_btn);
+                holder.mViewButton = (android.widget.Button) view.findViewById(R.id.item_btn);
                 holder.mViewButton.setText(holder.mWordString);
 
-                convertView.setTag(holder);
+                view.setTag(holder);
             } else {
                 holder = (WordButton) getTag();
             }
-            return convertView;
+            return view;
         }
     }
 
