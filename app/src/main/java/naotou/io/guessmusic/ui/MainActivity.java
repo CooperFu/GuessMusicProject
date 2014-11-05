@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     private Animation mBarOutAnim;
     private LinearInterpolator mBarOutLin;
 
-    //play案件处理
+    //play按键处理
     private ImageButton mBtnPlayStart;
     private ImageView mViewPan;
     private ImageView mViewBar;
@@ -122,8 +122,8 @@ public class MainActivity extends Activity {
         //先竿子过去,然后唱片旋转,然后竿子回来,这就涉及到动画播放顺序的问题,所以得监听每一个动画
         if (mViewBar != null) {//防止空指针异常.
             if (!isRunning) {
-                isRunning = true;
                 mViewBar.startAnimation(mBarInAnim);
+                isRunning = true;
                 mBtnPlayStart.setVisibility(View.INVISIBLE);
             }
         }
